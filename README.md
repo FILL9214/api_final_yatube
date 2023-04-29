@@ -32,9 +32,9 @@ python3 manage.py runserver
 
 # Примеры использования
 Запрос аторизованного пользователя ко всем постам:
-[Screenshot](https://github.com/FILL9214/api_final_yatube/blob/master/Снимок%20экрана%202023-04-29%20в%2015.12.25.png
+![Screenshot](https://github.com/FILL9214/api_final_yatube/blob/master/Снимок%20экрана%202023-04-29%20в%2015.12.25.png
 Запрос неавторизованного пользователя ко всем группам:
-[Screenshot](https://github.com/FILL9214/api_final_yatube/blob/master/Снимок%20экрана%202023-04-29%20в%2015.13.03.png
+![Screenshot](https://github.com/FILL9214/api_final_yatube/blob/master/Снимок%20экрана%202023-04-29%20в%2015.13.03.png
 
 # Автор
 Филипп Истомин
