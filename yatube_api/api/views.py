@@ -8,6 +8,7 @@ from .serializers import (
     UserSerializer,
     FollowSerializer)
 from django.core.exceptions import PermissionDenied
+from api.permissions import AuthorOrReadOnly
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -23,18 +24,23 @@ class GetGroupViewSet(
     pass
 
 
+class GetPostFollowViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet
+):
+    pass
+
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = LimitOffsetPagination
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly ,AuthorOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
-    def perform_update(self, serializer):
-        if serializer.instance.author != self.request.user:
-            raise PermissionDenied('Изменение чужого контента запрещено!')
-        super(PostViewSet, self).perform_update(serializer)
 
     def perform_destroy(self, instance):
         if instance.author != self.request.user:
@@ -49,6 +55,7 @@ class GroupViewSet(GetGroupViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, AuthorOrReadOnly)
 
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
@@ -60,10 +67,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
 
-    def perform_update(self, serializer):
-        if serializer.instance.author != self.request.user:
-            raise PermissionDenied('Изменение чужого контента запрещено!')
-        super(CommentViewSet, self).perform_update(serializer)
 
     def perform_destroy(self, instance):
         if instance.author != self.request.user:
@@ -71,7 +74,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         super(CommentViewSet, self).perform_destroy(instance)
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(GetPostFollowViewSet):
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
