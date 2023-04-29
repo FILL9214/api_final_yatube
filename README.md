@@ -32,7 +32,7 @@ python3 manage.py runserver
 
 # Примеры использования
 Запрос аторизованного пользователя ко всем постам:
-image.png
+[Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
 Запрос неавторизованного пользователя ко всем группам:
 image.png
 
