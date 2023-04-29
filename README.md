@@ -7,7 +7,7 @@ API имитирующая социальную сеть с возможност
 # Технологии
 Для создания проекта использовались следующие технологии:
     Язык программирования Python 3.9;
-    Библиотеки: django_rest_framework, djoser, django_filter
+    Библиотеки: django_rest_framework, djoser, django_filter;
 
 # Как запустить проект
 
