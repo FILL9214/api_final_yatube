@@ -71,7 +71,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
 
-
     def perform_destroy(self, instance):
         if instance.author != self.request.user:
             raise PermissionDenied('Удаление чужого контента запрещено!')
@@ -89,4 +88,3 @@ class FollowViewSet(GetPostFollowViewSet):
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
-
